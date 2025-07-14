@@ -102,9 +102,14 @@ async def generate_streaming_response(client, url, headers, json_data):
                         complete_lines = lines[:-1]
 
                         for line in complete_lines:
-                            if line.startswith("data:") and line.strip() != "data: [DONE]":
+                            if (
+                                line.startswith("data:")
+                                and line.strip() != "data: [DONE]"
+                            ):
                                 try:
-                                    json_str = line[5:].strip()  # Remove 'data: ' prefix
+                                    json_str = line[
+                                        5:
+                                    ].strip()  # Remove 'data: ' prefix
                                     if json_str:
                                         chunk_data = json.loads(json_str)
                                         content = (
@@ -154,21 +159,31 @@ async def generate_streaming_response(client, url, headers, json_data):
 
             if not buffer.strip().endswith("[DONE]"):
                 yield "data: [DONE]\n\n"
-                
+
     except httpx.HTTPStatusError as e:
-        error_detail = e.response.text or f"OpenRouter returned status {e.response.status_code}"
-        logger.error(f"OpenRouter HTTPStatusError during stream setup: {e.response.status_code} - {error_detail}")
-        error_content = {"error": f"OpenRouter API error ({e.response.status_code}): {error_detail}"}
+        error_detail = (
+            e.response.text or f"OpenRouter returned status {e.response.status_code}"
+        )
+        logger.error(
+            f"OpenRouter HTTPStatusError during stream setup: {e.response.status_code} - {error_detail}"
+        )
+        error_content = {
+            "error": f"OpenRouter API error ({e.response.status_code}): {error_detail}"
+        }
         yield f"data: {json.dumps(error_content)}\n\n"
         yield "data: [DONE]\n\n"
-    except httpx.RequestError as e: # Network errors
+    except httpx.RequestError as e:  # Network errors
         logger.error(f"OpenRouter RequestError during stream setup: {str(e)}")
         error_content = {"error": f"Network error connecting to OpenRouter: {str(e)}"}
         yield f"data: {json.dumps(error_content)}\n\n"
         yield "data: [DONE]\n\n"
-    except Exception as e: # Other unexpected errors
-        logger.error(f"Unexpected error during OpenRouter stream setup: {str(e)}", exc_info=True)
-        error_content = {"error": f"Unexpected error setting up stream with OpenRouter: {str(e)}"}
+    except Exception as e:  # Other unexpected errors
+        logger.error(
+            f"Unexpected error during OpenRouter stream setup: {str(e)}", exc_info=True
+        )
+        error_content = {
+            "error": f"Unexpected error setting up stream with OpenRouter: {str(e)}"
+        }
         yield f"data: {json.dumps(error_content)}\n\n"
         yield "data: [DONE]\n\n"
 
