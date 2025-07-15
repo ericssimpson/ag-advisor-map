@@ -180,24 +180,5 @@ export const useAvailableDataStore = defineStore('availableDataStore', {
       }
     },
 
-    /**
-     * Placeholder action for loading available administrative layers.
-     * This functionality is not yet implemented.
-     * It currently ensures adminLayers remains an empty array.
-     */
-    async loadAvailableAdminLayers(): Promise<void> {
-      // console.warn('[availableDataStore] loadAvailableAdminLayers is not implemented yet.');
-      // Future implementation would fetch admin layers, potentially with caching:
-      // try {
-      //   // const data = await fetchAdminLayersApi(); // Assuming an API function fetchAdminLayersApi exists
-      //   // this.adminLayers = data;
-      //   // this.error = null;
-      // } catch (err) {
-      //   console.error('[availableDataStore] Failed to load available admin layers:', err);
-      //   this.error = err instanceof Error ? err.message : 'An unknown error occurred while fetching admin layers.';
-      //   // this.adminLayers = []; // Reset on error
-      // }
-      this.adminLayers = [] // Explicitly keep it empty or set to a default state
-    },
   },
 })
