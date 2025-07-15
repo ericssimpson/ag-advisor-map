@@ -1,11 +1,13 @@
+const purgecss = require('@fullhuman/postcss-purgecss')
+
 module.exports = {
-  plugins: {
-    'postcss-import': {},
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
+  plugins: [
+    require('postcss-import'),
+    require('@tailwindcss/postcss'),
+    require('autoprefixer'),
     ...(process.env.NODE_ENV === 'production'
-      ? {
-          '@fullhuman/postcss-purgecss': {
+      ? [
+          purgecss({
             content: [
               './index.html',
               './src/**/*.vue',
@@ -25,8 +27,8 @@ module.exports = {
               keyframes: [],
               variables: [],
             },
-          },
-        }
-      : {}),
-  },
+          }),
+        ]
+      : []),
+  ],
 }
