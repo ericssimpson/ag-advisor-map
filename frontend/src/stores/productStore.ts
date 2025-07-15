@@ -277,19 +277,6 @@ export const useProductStore = defineStore('productStore', {
       return computeTileLayerURL(this.selectedProduct as SelectedProductParams)
     },
 
-    /**
-     * Generates and returns the tile layer URL for the current product and date.
-     * This would typically be used by a map component to display the product data.
-     * @returns {string | null} The tile layer URL or null if data is missing.
-     */
-    renderTileLayer(): string | null {
-      if (this.selectedProduct.product_id && this.selectedProduct.date) {
-        return computeTileLayerURL(
-          this.selectedProduct as SelectedProductParams,
-        ) // Pass the whole selectedProduct object, cast if needed
-      }
-      return null
-    },
   },
 })
 
