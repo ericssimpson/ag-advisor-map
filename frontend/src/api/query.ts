@@ -1,5 +1,6 @@
 import axios from '@/http-common'
 import type { SelectedProductParams } from '@/shared'
+import { isAxiosError } from 'axios'
 
 // GeoJSON type definitions
 export interface GeoJSONPolygon {
@@ -70,11 +71,15 @@ export async function queryValueByGeometry(
     })
     console.log('Received response from /query/:', response.data)
     return response.data
-  } catch (error: any) {
-    console.error(
-      'Error in queryValueByGeometry:',
-      error.response ? error.response.data : error.message,
-    )
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.error(
+        'Error in queryValueByGeometry:',
+        error.response ? error.response.data : error.message,
+      )
+    } else {
+      console.error('An unexpected error occurred in queryValueByGeometry:', error)
+    }
     throw error // Re-throw to be handled by the calling action in the store
   }
 }
