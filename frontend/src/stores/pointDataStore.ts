@@ -6,7 +6,6 @@ import { useProductStore } from './productStore' // To access selected product d
 
 export interface PointDataState {
   clickedPoint: ClickedPointType
-  currentMapSelectionCoordinates: { longitude: number; latitude: number } | null
 }
 
 export const usePointDataStore = defineStore('pointDataStore', {
@@ -17,7 +16,6 @@ export const usePointDataStore = defineStore('pointDataStore', {
       isLoading: false,
       errorMessage: null,
     } as ClickedPointType,
-    currentMapSelectionCoordinates: null,
   }),
 
   actions: {
@@ -45,29 +43,6 @@ export const usePointDataStore = defineStore('pointDataStore', {
       }
     },
 
-    /**
-     * Sets the current map selection coordinates, used for a "pinned" point or area of interest.
-     * This might trigger other reactive processes that depend on this pinned location.
-     * @param longitude - Geographical longitude.
-     * @param latitude - Geographical latitude.
-     */
-    setCurrentMapSelectionCoordinates(longitude: number, latitude: number) {
-      this.currentMapSelectionCoordinates = { longitude, latitude }
-      // console.log('[pointDataStore] currentMapSelectionCoordinates updated:', JSON.parse(JSON.stringify(this.currentMapSelectionCoordinates)));
-    },
-
-    /**
-     * Clears the clicked point data and hides any associated UI elements (e.g., popup).
-     */
-    clearClickedPoint() {
-      this.clickedPoint = {
-        show: false,
-        value: null,
-        isLoading: false,
-        errorMessage: null,
-        // x, y, longitude, latitude can be left as is or cleared depending on desired behavior
-      }
-    },
 
     /**
      * Fetches the data value for the selected product at given geographical coordinates using a polygon.

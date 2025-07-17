@@ -149,8 +149,8 @@ function handleClick(event: {
       new CustomEvent('location-selected', { detail: { longitude, latitude } }),
     )
   } else {
-    // Scenario 3: Farm location is already set.
-    pointDataStore.setCurrentMapSelectionCoordinates(longitude, latitude) // For popup
+    // Scenario 3: Farm location is already set. A click will query data for that point.
+    // The 'currentMapSelectionCoordinates' logic has been removed as it was unused.
   }
 
   // Handle popup display and data loading for the *clicked* point (not necessarily the farm location)
@@ -332,8 +332,6 @@ watch(
 
     <!-- Control Panel Component -->
     <ControlPanel />
-    <!-- Map Popup for Clicked Point Info -->
-    <MapPopup />
   </div>
 </template>
 

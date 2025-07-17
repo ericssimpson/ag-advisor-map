@@ -49,10 +49,7 @@ export const useProductStore = defineStore('productStore', {
     getSelectedProduct(state): selectedProductType {
       return state.selectedProduct
     },
-    getSelectedDate(state): string {
-      return state.selectedProduct.date || ''
-    },
-    getProductDates(state): Array<string> {
+getProductDates(state): Array<string> {
       // Ensure return type is string array
       if (!state.productEntries || !state.productEntries.results) return []
       return state.productEntries.results
@@ -78,14 +75,7 @@ export const useProductStore = defineStore('productStore', {
         ? dates[dates.length - 1].replaceAll('-', '/')
         : undefined
     },
-    // Getter for isLoading state specific to product entries
-    isProductEntriesLoading(state): boolean {
-      return state.isLoading
-    },
-    // Getter for error state specific to product entries
-    getProductEntriesError(state): string | null {
-      return state.error
-    },
+
   },
 
   actions: {

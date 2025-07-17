@@ -13,7 +13,6 @@ import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import Panel from 'primevue/panel'
 import Calendar from 'primevue/calendar'
-import Tooltip from 'primevue/tooltip'
 
 // Import PrimeVue styles
 import 'primevue/resources/themes/lara-light-green/theme.css' // base theme
@@ -32,9 +31,6 @@ app.component('PInputText', InputText)
 app.component('PDropdown', Dropdown)
 app.component('PPanel', Panel)
 app.component('PCalendar', Calendar)
-
-// Register PrimeVue directives
-app.directive('tooltip', Tooltip)
 
 app.use(pinia)
 

@@ -23,7 +23,7 @@ export function useReactiveMapDataManager() {
       () => {
         const pid = productStore.selectedProduct.product_id
         const pdate = productStore.selectedProduct.date
-        const pcoords = pointDataStore.currentMapSelectionCoordinates
+        const pcoords = pointDataStore.clickedPoint
 
         // Only return a "complete" object if all parts are defined and valid.
         // A valid pcoords object must have longitude and latitude.

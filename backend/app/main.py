@@ -226,7 +226,7 @@ async def chat(message: Message):
         "You are AgriBot, a helpful assistant specialized in agricultural advice and "
         "data interpretation. Provide insightful and actionable farming "
         "recommendations based on location data, soil conditions, and "
-        "agricultural metrics."
+        "agricultural metrics in English."
     )
 
     if message.context_type == "farm_selected":

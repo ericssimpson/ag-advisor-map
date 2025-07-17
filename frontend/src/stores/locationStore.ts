@@ -26,17 +26,6 @@ export const useLocationStore = defineStore('locationStore', {
     targetLocation: null,
   }),
 
-  getters: {
-    /**
-     * Retrieves the current target location.
-     * @param {LocationState} state - The current store state.
-     * @returns {TargetLocationType} The target location.
-     */
-    getTargetLocation(state: LocationState): TargetLocationType {
-      return state.targetLocation
-    },
-  },
-
   actions: {
     /**
      * Sets the target geographical location.
@@ -44,13 +33,6 @@ export const useLocationStore = defineStore('locationStore', {
      */
     setTargetLocation(location: TargetLocationType) {
       this.targetLocation = location
-    },
-
-    /**
-     * Clears the target geographical location, setting it to null.
-     */
-    clearTargetLocation() {
-      this.targetLocation = null
     },
   },
 })
