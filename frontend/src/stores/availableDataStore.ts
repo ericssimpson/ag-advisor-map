@@ -99,7 +99,6 @@ export const useAvailableDataStore = defineStore('availableDataStore', {
     getProducts(state): Array<productType> {
       return state.products.results
     },
-
   },
   actions: {
     /**
@@ -179,6 +178,5 @@ export const useAvailableDataStore = defineStore('availableDataStore', {
         // To clear: this.cropmasks = { results: [] };
       }
     },
-
   },
 })

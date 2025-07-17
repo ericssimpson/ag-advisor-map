@@ -4,7 +4,17 @@ handles user interactions like clicking on the map to * either set a target farm
 location or to get information about a specific point on a data layer. * It also
 displays a control panel and a popup for clicked point information. */
 <script setup lang="ts">
-import { ref, onMounted, watch, provide, onBeforeUnmount } from 'vue'
+import {
+  ref,
+  onMounted,
+  watch,
+  provide,
+  onBeforeUnmount,
+  markRaw,
+  toRaw,
+} from 'vue'
+import type { PickingInfo } from '@deck.gl/core'
+import type { MjolnirGestureEvent } from 'mjolnir.js'
 import mapboxgl from 'mapbox-gl'
 import { useProductStore } from '@/stores/productStore'
 import { useLocationStore } from '@/stores/locationStore'
@@ -103,9 +113,7 @@ function activateLocationSelection() {
  * If a farm location is already set, it also updates the `currentMapSelectionCoordinates`.
  * @param {object} event - The click event object from Deck.gl, containing coordinate info.
  */
-function handleClick(event: {
-  info: { coordinate: [number, number]; x: number; y: number }
-}) {
+function handleClick(event: { info: PickingInfo; event: MjolnirGestureEvent }) {
   const { info } = event
   if (!info || typeof info.x !== 'number' || typeof info.y !== 'number') {
     console.warn('MapView: Click event does not have valid screen coordinates.')
@@ -113,15 +121,11 @@ function handleClick(event: {
   }
 
   let longitude: number, latitude: number
-  if (mapInstance.value) {
+  if (mapInstance.value && info.coordinate) {
     const LngLat = mapInstance.value.unproject([info.x, info.y])
     longitude = LngLat.lng
     latitude = LngLat.lat
-  } else if (
-    info.coordinate &&
-    Array.isArray(info.coordinate) &&
-    info.coordinate.length >= 2
-  ) {
+  } else if (info.coordinate && info.coordinate.length >= 2) {
     console.warn(
       'MapView: mapInstance not available for unprojecting click. Falling back to Deck.gl coordinates.',
     )
@@ -142,7 +146,7 @@ function handleClick(event: {
       new CustomEvent('location-selected', { detail: { longitude, latitude } }),
     )
   } else if (!locationStore.targetLocation) {
-    // Scenario 2: Not in explicit "set location mode", AND no farm location is set yet.
+    // Scenario 2: Not in explicit "set location" mode, AND no farm location is set yet.
     locationStore.setTargetLocation({ longitude, latitude })
     renderTargetMarker()
     window.dispatchEvent(
@@ -189,7 +193,7 @@ function handleClick(event: {
  * @param {mapboxgl.Map} map - The Mapbox GL map instance.
  */
 function onMapLoaded(map: mapboxgl.Map) {
-  mapInstance.value = map
+  mapInstance.value = markRaw(map)
   // console.log('Mapbox instance ready'); // Debug log
   renderTargetMarker() // Initial render of target marker if a location exists
 
@@ -214,8 +218,12 @@ function renderTargetMarker() {
         offset: [0, 5], // Offset in pixels: [x, y]. Positive y moves marker down.
       }
 
-      // Assert mapInstance.value as any to resolve complex type instantiation issues
-      const currentMap = mapInstance.value as any
+      // Use toRaw to get the original, non-proxied map object.
+      // Using `as any` is a workaround for a complex type issue between
+      // Vue's reactivity system and the Mapbox GL JS Map object.
+      // The error "Type instantiation is excessively deep and possibly infinite"
+      // suggests a problem that is hard to solve with simple type annotations.
+      const currentMap = toRaw(mapInstance.value) as any
 
       if (targetMarker.value) {
         targetMarker.value.setLngLat([
@@ -225,7 +233,7 @@ function renderTargetMarker() {
       } else {
         targetMarker.value = new mapboxgl.Marker(markerOptions)
           .setLngLat([targetLocation.longitude, targetLocation.latitude])
-          .addTo(currentMap as any) // Use type assertion to any for addTo
+          .addTo(currentMap)
       }
       bringMarkerToFront() // Ensure marker is on top
     } else if (targetMarker.value) {

@@ -43,7 +43,6 @@ export const usePointDataStore = defineStore('pointDataStore', {
       }
     },
 
-
     /**
      * Fetches the data value for the selected product at given geographical coordinates using a polygon.
      * Updates the clickedPoint state with the fetched value or an error message.

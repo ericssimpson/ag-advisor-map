@@ -223,19 +223,19 @@ export function useChatService(
     inputDisabled.value = true
 
     try {
-      let apiUrlToUse;
-      const configuredApiUrl = import.meta.env.VITE_API_URL;
+      let apiUrlToUse
+      const configuredApiUrl = import.meta.env.VITE_API_URL
 
       // Check if running in a production environment (like Vercel)
       if (import.meta.env.PROD) {
         // In production, always use a relative path to /chat
-        apiUrlToUse = '/chat';
+        apiUrlToUse = '/chat'
       } else {
         // In development, use VITE_API_URL if set and not empty, otherwise fallback to default local URL
         if (configuredApiUrl && configuredApiUrl.trim() !== '') {
-          apiUrlToUse = `${configuredApiUrl}/chat`;
+          apiUrlToUse = `${configuredApiUrl}/chat`
         } else {
-          apiUrlToUse = 'http://127.0.0.1:8157/chat'; // Default for local dev
+          apiUrlToUse = 'http://127.0.0.1:8157/chat' // Default for local dev
         }
       }
 

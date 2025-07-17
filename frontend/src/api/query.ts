@@ -78,7 +78,10 @@ export async function queryValueByGeometry(
         error.response ? error.response.data : error.message,
       )
     } else {
-      console.error('An unexpected error occurred in queryValueByGeometry:', error)
+      console.error(
+        'An unexpected error occurred in queryValueByGeometry:',
+        error,
+      )
     }
     throw error // Re-throw to be handled by the calling action in the store
   }

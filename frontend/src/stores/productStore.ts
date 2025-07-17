@@ -49,7 +49,7 @@ export const useProductStore = defineStore('productStore', {
     getSelectedProduct(state): selectedProductType {
       return state.selectedProduct
     },
-getProductDates(state): Array<string> {
+    getProductDates(state): Array<string> {
       // Ensure return type is string array
       if (!state.productEntries || !state.productEntries.results) return []
       return state.productEntries.results
@@ -75,7 +75,6 @@ getProductDates(state): Array<string> {
         ? dates[dates.length - 1].replaceAll('-', '/')
         : undefined
     },
-
   },
 
   actions: {
@@ -266,7 +265,6 @@ getProductDates(state): Array<string> {
       }
       return computeTileLayerURL(this.selectedProduct as SelectedProductParams)
     },
-
   },
 })
 
