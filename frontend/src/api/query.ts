@@ -1,5 +1,7 @@
 import axios from '@/http-common'
 import type { SelectedProductParams, ApiGeomType } from '@/shared'
+
+export type { ApiGeomType }
 import { isAxiosError } from 'axios'
 
 // GeoJSON type definitions are now in shared.d.ts
