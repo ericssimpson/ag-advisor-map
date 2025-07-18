@@ -19,11 +19,14 @@ export type TargetLocationType = {
 export interface LocationState {
   /** The current target location, or null if not set. */
   targetLocation: TargetLocationType
+  /** Whether the user is currently in the process of selecting a location. */
+  isSelectingLocation: boolean
 }
 
 export const useLocationStore = defineStore('locationStore', {
   state: (): LocationState => ({
     targetLocation: null,
+    isSelectingLocation: false,
   }),
 
   actions: {
@@ -33,6 +36,21 @@ export const useLocationStore = defineStore('locationStore', {
      */
     setTargetLocation(location: TargetLocationType) {
       this.targetLocation = location
+      this.isSelectingLocation = false // Turn off selection mode once a location is set
+    },
+
+    /**
+     * Activates location selection mode.
+     */
+    startLocationSelection() {
+      this.isSelectingLocation = true
+    },
+
+    /**
+     * Deactivates location selection mode.
+     */
+    cancelLocationSelection() {
+      this.isSelectingLocation = false
     },
   },
 })

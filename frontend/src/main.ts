@@ -8,11 +8,6 @@ import App from './App.vue'
 
 // Import PrimeVue and required components
 import PrimeVue from 'primevue/config'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Dropdown from 'primevue/dropdown'
-import Panel from 'primevue/panel'
-import Calendar from 'primevue/calendar'
 
 // Import PrimeVue styles
 import 'primevue/resources/themes/lara-light-green/theme.css' // base theme
@@ -25,12 +20,7 @@ const app = createApp(App)
 // Register PrimeVue
 app.use(PrimeVue, { ripple: true })
 
-// Register PrimeVue components
-app.component('PButton', Button)
-app.component('PInputText', InputText)
-app.component('PDropdown', Dropdown)
-app.component('PPanel', Panel)
-app.component('PCalendar', Calendar)
+// PrimeVue components are now imported directly into the components that use them.
 
 app.use(pinia)
 

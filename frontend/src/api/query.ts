@@ -1,21 +1,8 @@
 import axios from '@/http-common'
-import type { SelectedProductParams } from '@/shared'
+import type { SelectedProductParams, ApiGeomType } from '@/shared'
 import { isAxiosError } from 'axios'
 
-// GeoJSON type definitions
-export interface GeoJSONPolygon {
-  type: 'Polygon'
-  coordinates: number[][][] // Array of linear rings (outer ring, then inner rings)
-}
-
-export interface GeoJSONFeature<G, P = Record<string, unknown>> {
-  type: 'Feature'
-  geometry: G
-  properties: P
-}
-
-// Specific type for the geometry payload expected by the API
-export type ApiGeomType = GeoJSONFeature<GeoJSONPolygon>
+// GeoJSON type definitions are now in shared.d.ts
 
 interface QueryPayload {
   product_id: string
