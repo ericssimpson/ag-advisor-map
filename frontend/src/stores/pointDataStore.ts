@@ -20,30 +20,6 @@ export const usePointDataStore = defineStore('pointDataStore', {
 
   actions: {
     /**
-     * Sets the screen and geographical coordinates of a point clicked on the map.
-     * This is typically used to position a popup.
-     * @param x - Screen x-coordinate.
-     * @param y - Screen y-coordinate.
-     * @param longitude - Geographical longitude.
-     * @param latitude - Geographical latitude.
-     */
-    setClickedPointCoordinates(
-      x: number,
-      y: number,
-      longitude: number,
-      latitude: number,
-    ) {
-      this.clickedPoint = {
-        ...this.clickedPoint, // Preserve existing properties like value, isLoading, errorMessage
-        x,
-        y,
-        longitude,
-        latitude,
-        show: true, // Initially show, data loading will update this
-      }
-    },
-
-    /**
      * Fetches the data value for the selected product at given geographical coordinates using a polygon.
      * Updates the clickedPoint state with the fetched value or an error message.
      * @param longitude - Geographical longitude of the point of interest.
